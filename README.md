@@ -1,6 +1,9 @@
 # PySimpleGUI-3D-Viewer
 A basic 3D viewer built with PySimpleGUI.
 
+<img width="414" alt="image" src="https://user-images.githubusercontent.com/7659338/172374092-e4caffcd-ffc0-4200-bd03-ad1e049988f6.png"> <img width="387" alt="image" src="https://user-images.githubusercontent.com/7659338/172377046-b2cd05fd-a31d-4af5-b79f-c3e58d80fdaa.png">
+
+
 ## Introduction
 This repo contains a very basic 3D viewer written in Python that can read .obj files and display them in a gui with controls for rotation and translation. This repo makes use of PySimpleGUI for creation of the GUI but requires no other libries, instead relying on builtins and maths to create the 2D projection from 3D data. A .obj importer is also included so that files can be read in. PIL is however optionally used for rendering the graphics to a png file for export and a number of 3D graphs powered by matplotlib are used outside of the main program for visulisation of the 3D scenes to aid with understanding how this program works.
 
@@ -24,9 +27,24 @@ To keep things simple this program uses similar triangles to calcualte the point
 ## Rendering The 2D Points
 To render the projected points PySimpleGUIs `Graph` element is used. This element allows the creation of a canvas complete with drawing tools for lines, circles, polygons, etc. One nicety of this element is the ability to arbitrarily define the center point of your graph which saves a fair bit of boilerplate just to center the object. To render the points it is as simple as calling `draw_circle()` on the projected points.
 
-## Rendeering Lines
+<img width="470" alt="image" src="https://user-images.githubusercontent.com/7659338/172373297-d6114123-b501-43ff-9ce3-aed49d11c3b7.png">
 
+## Rendering Lines
+Rendering the points quickly gives you an idea of the form of the object but leaves a lot to be desired. Rendering the edges that connect the points help form a far better understanding of the shape. This is easily done by looping over the the edges defined for our shape and drawing a straight line between the two projected points of the edge.
+
+<img width="404" alt="image" src="https://user-images.githubusercontent.com/7659338/172373360-0e4582d7-7d55-41aa-a874-522b8b09edd1.png">
 
 ## Rendering Polygons
+The obvious next step is to render polygons that form the object. This is again fairly easily done employing the same approach we used for rendering the lines but instead drawing filled polygons formed of the projected points. This presents a unique challenge that the lines did not - due to the rendering order of the polygons and their 'solid' nature, polygons that are behind other polygons must be rendered behind, otherwise back faces will show ontop of the front faces! To get around this issue "Hidden-surface determination" is required to determine which polygons should be rendered at the front. While many complex algorithms exist to implement highly affective determination the "[Painter's algorithm](https://en.wikipedia.org/wiki/Painter%27s_algorithm)" is applied here. This algorithm works by ordering polygons based on their centroid and rendering rear-most polygons first. This method is computationally ineficient and occasionally shows minor imperfections but it is simple to implement and gets the job done to a high enough standard.
+
+<img width="414" alt="image" src="https://user-images.githubusercontent.com/7659338/172374092-e4caffcd-ffc0-4200-bd03-ad1e049988f6.png">
 
 ## Translation and Rotation
+To add interactivity to the 3D objects rotation and translation is to be added. This is simply done with a Z rotation transformation:
+```
+        # |cos θ   −sin θ   0| |x|   |x cos θ − y sin θ|   |x'|
+        # |sin θ    cos θ   0| |y| = |x sin θ + y cos θ| = |y'|
+        # |  0       0      1| |z|   |        z        |   |z'|
+```
+
+followed by a simple XYZ translation. Completing the transformations in this order prevents the object from rotating about the scene origin. 
