@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 from math import sin, cos, radians
 
 
@@ -138,6 +137,8 @@ default_cube_faces = [
 
 
 if __name__ == '__main__':
+    import matplotlib.pyplot as plt
+
     # Create Camera
     camera = Camera_3D(-20, -10)
 
