@@ -95,23 +95,6 @@ class Camera_3D:
 
         return result
 
-# def get_2d_lines(verts, edges, scale_factor: int = 200):
-#     result = []
-#     for i in edges:
-#         p1 = verts[i[0]]
-#         p2 = verts[i[1]]
-
-#         p1 = (p1[1], p1[2])
-#         p2 = (p2[1], p2[2])
-
-#         p1 = tuple(map(lambda x: x * scale_factor, p1))
-#         p2 = tuple(map(lambda x: x * scale_factor, p2))
-
-#         result.append((p1, p2))
-
-#     return result
-
-
 def PIL_render_object(
     projected_points,
     object_edges,
