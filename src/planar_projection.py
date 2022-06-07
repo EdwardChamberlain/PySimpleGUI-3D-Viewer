@@ -173,14 +173,10 @@ if __name__ == '__main__':
     camera = Camera_3D(-20, -10)
 
     # Create Object
-    cube = Object_3D(default_cube_verts, default_cube_edges)
-
-    # Apply rotation transformatio
-    # cube.set_z_rotation(45)
+    cube = Object_3D(default_cube_verts, default_cube_edges, default_cube_faces)
 
     # Calcualte Projection Plane Intersection
     projected_points = camera.project_object(cube)
-
 
     # ~~~ MATPLOT LIB REPRESENTATION ~~~
     # Create a 3D matplotlib graph for visualtion of the projection.
@@ -219,46 +215,43 @@ if __name__ == '__main__':
 
     # Projection lines
     for i in cube.verts:
-        ax.plot((i[0], -20), (i[1], 0), (i[2], 0), color='grey')
+        ax.plot((i[0], camera.focal_point[0]), (i[1], camera.focal_point[1]), (i[2], camera.focal_point[2]), color='grey')
 
     # Plot Projected Points
     for i in projected_points:
-        ax.scatter(*i, color='green')
+        p = (camera.projection_plane_anchor[0], i[0], i[1])
+        ax.scatter(*p, color='green')
 
     # Plot projected edges
     for i in default_cube_edges:
         p1 = projected_points[i[0]]
         p2 = projected_points[i[1]]
 
-        xs = (p1[0], p2[0])
-        ys = (p1[1], p2[1])
-        zs = (p1[2], p2[2])
+        xs = (-10, -10)
+        ys = (p1[0], p2[0])
+        zs = (p1[1], p2[1])
         ax.plot(xs, ys, zs, color='black')
 
 
-    # plt.show()
+    plt.show()
     plt.clf()
 
     # ~~~ MATPLOT LIB RESULT ~~~
     # Now plot just the projected points on a 2D plot.
-    for i in projected_points:
-        projection_plane_anchor = (i[1], i[2])
-        plt.scatter(*projection_plane_anchor, color='black')
+    projection_plane_anchor = (camera.projection_plane_anchor[1], camera.projection_plane_anchor[2])
+    plt.scatter(*projection_plane_anchor, color='blue')
+
+    for p in projected_points:
+        plt.scatter(*p, color='green')
 
     for i in default_cube_edges:
         p1 = projected_points[i[0]]
         p2 = projected_points[i[1]]
-
-        p1 = (p1[1], p1[2])
-        p2 = (p2[1], p2[2])
         
         xs = (p1[0], p2[0])
         ys = (p1[1], p2[1])
 
         plt.plot(xs, ys, color='black')
 
-    # plt.show()
+    plt.show()
     plt.clf()
-
-    # ~~~ RASTER RESULT USING PIL ~~~
-    PIL_render_object(projected_points, cube.edges)
