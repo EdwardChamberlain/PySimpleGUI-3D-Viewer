@@ -1,4 +1,3 @@
-from PIL import Image, ImageDraw
 import matplotlib.pyplot as plt
 from math import sin, cos, radians
 
@@ -95,36 +94,6 @@ class Camera_3D:
 
         return result
 
-def PIL_render_object(
-    projected_points,
-    object_edges,
-    filename: str = 'output.png',
-    size = (500, 500),
-    scale_factor: int = 200,
-):
-    center_point = (size[0]/2, size[1]/2)
-
-    image = Image.new(
-        mode='RGB',
-        size=size,
-        color='black',
-    )
-    canvas = ImageDraw.Draw(image)
-
-    for i in object_edges:
-        p1 = projected_points[i[0]]
-        p2 = projected_points[i[1]]
-
-        p1 = (p1[1], p1[2])
-        p2 = (p2[1], p2[2])
-
-        x_1 = center_point[0] + p1[0] * scale_factor 
-        y_1 = center_point[1] + p1[1] * scale_factor 
-        x_2 = center_point[0] + p2[0] * scale_factor 
-        y_2 = center_point[1] + p2[1] * scale_factor 
-        canvas.line((x_1, y_1, x_2, y_2), fill='white', width=3)
-
-    image.save(filename)
 
 # Define the cube verticies. Coordinates in the form: (X, Y, Z)
 default_cube_verts = [
