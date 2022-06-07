@@ -1,0 +1,4 @@
+PySimpleGUI==4.60.1
+
+Pillow==9.1.1
+matplotlib==3.5.2
