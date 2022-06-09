@@ -7,11 +7,6 @@ import workarounds
 
 
 # Create Scene
-my_object = planar_projection.Object_3D(
-    verts = planar_projection.default_cube_verts,
-    edges = planar_projection.default_cube_edges,
-    faces = planar_projection.default_cube_faces,
-)
 my_object = obj_reader.import_obj('example_obj/utah_teapot.obj', ('x', 90))
 my_camera = planar_projection.Camera_3D(
     focal_distance=-12,
@@ -37,6 +32,10 @@ def refresh_view(RENDER_MODE):
                 canvas.draw_line(p1, p2, 'white', 3)
 
         case 'POINTS':
+            if my_object.verts is None:
+                canvas.draw_text("No points in file!", (0, 0), 'white')
+                return
+
             for p in points:
                 canvas.draw_circle(p, 0.005, 'white', 'white')
 
@@ -45,13 +44,7 @@ def refresh_view(RENDER_MODE):
                 canvas.draw_text("No faces data in file!", (0, 0), 'white')
                 return
 
-            centroids = my_object.get_centroids()
-            ordered_faces = [
-                x
-                for _, x in sorted(zip(centroids, my_object.faces), reverse=True)
-            ]
-
-            for f in ordered_faces:
+            for f in my_camera.get_faces(my_object):
                 verts = [points[p] for p in f]            
                 canvas.draw_polygon(verts, 'grey', 'orange', 0.02)
 

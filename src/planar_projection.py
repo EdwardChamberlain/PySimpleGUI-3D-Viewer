@@ -92,6 +92,16 @@ class Camera_3D:
             result.append((p1, p2))
 
         return result
+    
+    def get_faces(self, object: Object_3D):
+        centroids = object.get_centroids()
+        ordered_faces = [
+            x
+            for _, x in sorted(zip(centroids, object.faces), reverse=True)
+        ]
+
+
+        return ordered_faces
 
 
 # Define the cube verticies. Coordinates in the form: (X, Y, Z)
