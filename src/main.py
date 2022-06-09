@@ -6,13 +6,6 @@ import obj_reader
 import workarounds
 
 
-# Create Scene
-my_object = obj_reader.import_obj('example_obj/utah_teapot.obj', ('x', 90))
-my_camera = planar_projection.Camera_3D(
-    focal_distance=-12,
-    projection_plane_distance=-10
-)
-
 def RGB_2_HEX(x: tuple):
     return f"#{x[0]:02x}{x[1]:02x}{x[2]:02x}"
 
@@ -53,23 +46,25 @@ def refresh_view(RENDER_MODE):
                 canvas.draw_text("No faces data in file!", (0, 0), 'white')
                 return
 
-            centroids = my_object.get_centroids()
-            ordered_faces = [
-                x
-                for _, x in sorted(zip(centroids, my_object.faces), reverse=True)
-            ]
-
-            for n, f in enumerate(ordered_faces):
-                c = int(n / len(ordered_faces) * 150) + 50
-                print(c)
-                face_colour = (c, c, c)
+            faces = my_camera.get_faces(my_object)
+            for n, f in enumerate(faces):
+                c = int(n / len(faces) * 150) + 50
+                face_colour = RGB_2_HEX((c, c, c))
                 verts = [points[p] for p in f]            
-                canvas.draw_polygon(verts, RGB_2_HEX(face_colour), RGB_2_HEX(face_colour), 0.02)
+                canvas.draw_polygon(verts, face_colour, face_colour, 0.02)
 
         # case 'POINT_NUMBER':
         #     for n, p in enumerate(points):
         #         canvas.draw_text(str(n), p, 'white')
 
+
+
+# Create Scene
+my_object = obj_reader.import_obj('example_obj/utah_teapot.obj', ('x', 90))
+my_camera = planar_projection.Camera_3D(
+    focal_distance=-12,
+    projection_plane_distance=-10
+)
 
 layout = [
     [sg.Graph((500, 500), (-1, -1), (1, 1), 'black', float_values=True, enable_events=True, key='-GRAPH-')],
