@@ -1,5 +1,4 @@
 import PySimpleGUI as sg
-from matplotlib.colors import rgb2hex
 
 import planar_projection
 import obj_reader
@@ -8,6 +7,7 @@ import workarounds
 
 def RGB_2_HEX(x: tuple):
     return f"#{x[0]:02x}{x[1]:02x}{x[2]:02x}"
+
 
 def refresh_view(RENDER_MODE):
     canvas: sg.Graph = window['-GRAPH-']
@@ -38,7 +38,7 @@ def refresh_view(RENDER_MODE):
                 return
 
             for f in my_camera.get_faces(my_object):
-                verts = [points[p] for p in f]            
+                verts = [points[p] for p in f]
                 canvas.draw_polygon(verts, 'grey', 'orange', 0.02)
 
         case 'SHADED':
@@ -50,13 +50,12 @@ def refresh_view(RENDER_MODE):
             for n, f in enumerate(faces):
                 c = int(n / len(faces) * 150) + 50
                 face_colour = RGB_2_HEX((c, c, c))
-                verts = [points[p] for p in f]            
+                verts = [points[p] for p in f]
                 canvas.draw_polygon(verts, face_colour, face_colour, 0.02)
 
         # case 'POINT_NUMBER':
         #     for n, p in enumerate(points):
         #         canvas.draw_text(str(n), p, 'white')
-
 
 
 # Create Scene
