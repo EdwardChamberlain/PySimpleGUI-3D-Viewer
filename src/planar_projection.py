@@ -50,7 +50,7 @@ class Object_3D:
         centroids = []
         for f in self.faces:
             verts_in_face = [verts[i] for i in f]
-            
+
             x = sum([i[0] for i in verts_in_face])/len(verts_in_face)
             y = sum([i[1] for i in verts_in_face])/len(verts_in_face)
             z = sum([i[2] for i in verts_in_face])/len(verts_in_face)
@@ -62,8 +62,8 @@ class Object_3D:
 
 class Camera_3D:
     def __init__(self, focal_distance, projection_plane_distance):
-        self.focal_point = (focal_distance, 0, 0) # Focus point must on X axis due to laziness (avoids a ton of maths).
-        self.projection_plane_anchor = (projection_plane_distance, 0, 0) # Projection plane centerpoint. (we will only use the x coord since this must be a plane parallel to YZ)
+        self.focal_point = (focal_distance, 0, 0)  # Focus point must on X axis due to laziness (avoids a ton of maths).
+        self.projection_plane_anchor = (projection_plane_distance, 0, 0)  # Projection plane centerpoint. (we will only use the x coord since this must be a plane parallel to YZ)
 
     @property
     def plane_focus_dist(self):
@@ -83,7 +83,7 @@ class Camera_3D:
 
     def get_edges(self, object: Object_3D):
         points = self.project_object(object)
-        
+
         result = []
         for i in object.edges:
             p1 = points[i[0]]
@@ -92,7 +92,7 @@ class Camera_3D:
             result.append((p1, p2))
 
         return result
-    
+
     def get_faces(self, object: Object_3D):
         centroids = object.get_centroids()
         ordered_faces = [
@@ -100,15 +100,14 @@ class Camera_3D:
             for _, x in sorted(zip(centroids, object.faces), reverse=True)
         ]
 
-
         return ordered_faces
 
 
 # Define the cube verticies. Coordinates in the form: (X, Y, Z)
 default_cube_verts = [
-    (1, 1, 1), #
-    (1, 1, -1), #
-    (1, -1, 1), #
+    (1, 1, 1),
+    (1, 1, -1),
+    (1, -1, 1),
     (1, -1, -1),
 
     (-1, 1, 1),
@@ -164,9 +163,9 @@ if __name__ == '__main__':
     ax = fig.add_subplot(projection='3d')
     ax_min = -25
     ax_max = 5
-    ax.axes.set_xlim3d(left=ax_min, right=ax_max) 
-    ax.axes.set_ylim3d(bottom=-ax_max, top=ax_max) 
-    ax.axes.set_zlim3d(bottom=-ax_max, top=ax_max) 
+    ax.axes.set_xlim3d(left=ax_min, right=ax_max)
+    ax.axes.set_ylim3d(bottom=-ax_max, top=ax_max)
+    ax.axes.set_zlim3d(bottom=-ax_max, top=ax_max)
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
     ax.set_zlabel('Z')
@@ -212,7 +211,6 @@ if __name__ == '__main__':
         zs = (p1[1], p2[1])
         ax.plot(xs, ys, zs, color='black')
 
-
     plt.show()
     plt.clf()
 
@@ -227,7 +225,7 @@ if __name__ == '__main__':
     for i in default_cube_edges:
         p1 = projected_points[i[0]]
         p2 = projected_points[i[1]]
-        
+
         xs = (p1[0], p2[0])
         ys = (p1[1], p2[1])
 

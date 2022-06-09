@@ -1,5 +1,6 @@
 import planar_projection
 
+
 def import_obj(filename: str, rotation=None):
     with open(filename, 'r') as f:
         obj_data = f.readlines()
@@ -11,9 +12,9 @@ def import_obj(filename: str, rotation=None):
     faces = [tuple(map(lambda x: int(x)-1, i)) for i in faces]
 
     imported_object = planar_projection.Object_3D(
-        verts = verticies,
-        edges = None,
-        faces = faces
+        verts=verticies,
+        edges=None,
+        faces=faces
     )
 
     match rotation[0]:
