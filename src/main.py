@@ -3,6 +3,7 @@ from matplotlib.colors import rgb2hex
 
 import planar_projection
 import obj_reader
+import workarounds
 
 
 # Create Scene
