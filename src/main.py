@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+from matplotlib.colors import rgb2hex
 
 import planar_projection
 import obj_reader
@@ -16,6 +17,8 @@ my_camera = planar_projection.Camera_3D(
     projection_plane_distance=-10
 )
 
+def RGB_2_HEX(x: tuple):
+    return f"#{x[0]:02x}{x[1]:02x}{x[2]:02x}"
 
 def refresh_view(RENDER_MODE):
     canvas: sg.Graph = window['-GRAPH-']
@@ -51,6 +54,24 @@ def refresh_view(RENDER_MODE):
                 verts = [points[p] for p in f]            
                 canvas.draw_polygon(verts, 'grey', 'orange', 0.02)
 
+        case 'SHADED':
+            if my_object.faces is None:
+                canvas.draw_text("No faces data in file!", (0, 0), 'white')
+                return
+
+            centroids = my_object.get_centroids()
+            ordered_faces = [
+                x
+                for _, x in sorted(zip(centroids, my_object.faces), reverse=True)
+            ]
+
+            for n, f in enumerate(ordered_faces):
+                c = int(n / len(ordered_faces) * 150) + 50
+                print(c)
+                face_colour = (c, c, c)
+                verts = [points[p] for p in f]            
+                canvas.draw_polygon(verts, RGB_2_HEX(face_colour), RGB_2_HEX(face_colour), 0.02)
+
         # case 'POINT_NUMBER':
         #     for n, p in enumerate(points):
         #         canvas.draw_text(str(n), p, 'white')
@@ -62,7 +83,7 @@ layout = [
     [sg.Text("X:", size=3), sg.Slider((-8, 8), resolution=0.1, default_value=0, enable_events=True, orientation='horizontal', expand_x=True, key='-X-')],
     [sg.Text("Y:", size=3), sg.Slider((-3, 3), resolution=0.1, default_value=0, enable_events=True, orientation='horizontal', expand_x=True, key='-Y-')],
     [sg.Text("Z:", size=3), sg.Slider((-3, 3), resolution=0.1, default_value=0, enable_events=True, orientation='horizontal', expand_x=True, key='-Z-')],
-    [sg.Text("Render Mode:"), sg.Combo(['POINTS', "LINES", 'FACES'], 'POINTS', key="-REDNER_TYPE-", enable_events=True)]
+    [sg.Text("Render Mode:"), sg.Combo(['POINTS', "LINES", 'FACES', 'SHADED'], 'POINTS', key="-REDNER_TYPE-", enable_events=True)]
 ]
 
 window = sg.Window('3D Viewport', layout)
