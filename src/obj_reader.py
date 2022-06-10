@@ -17,10 +17,10 @@ def import_obj(filename: str, rotation=None):
         faces=faces
     )
 
-    match rotation[0]:
-        case 'x':
+    if rotation[0] == 'x':
             imported_object._verts = [imported_object.roatate_point_x(p, rotation[1]) for p in imported_object._verts]
-        case 'z':
+    
+    if rotation[0] == 'z':
             imported_object._verts = [imported_object.roatate_point_z(p, rotation[1]) for p in imported_object._verts]
 
     return imported_object

@@ -15,47 +15,46 @@ def refresh_view(RENDER_MODE):
 
     points = my_camera.project_object(my_object)
 
-    match RENDER_MODE:
-        case 'LINES':
-            if my_object.edges is None:
-                canvas.draw_text("No lines data in file!", (0, 0), 'white')
-                return
+    if RENDER_MODE == 'LINES':
+        if my_object.edges is None:
+            canvas.draw_text("No lines data in file!", (0, 0), 'white')
+            return
 
-            for p1, p2 in my_camera.get_edges(my_object):
-                canvas.draw_line(p1, p2, 'white', 3)
+        for p1, p2 in my_camera.get_edges(my_object):
+            canvas.draw_line(p1, p2, 'white', 3)
 
-        case 'POINTS':
-            if my_object.verts is None:
-                canvas.draw_text("No points in file!", (0, 0), 'white')
-                return
+    if RENDER_MODE == 'POINTS':
+        if my_object.verts is None:
+            canvas.draw_text("No points in file!", (0, 0), 'white')
+            return
 
-            for p in points:
-                canvas.draw_circle(p, 0.005, 'white', 'white')
+        for p in points:
+            canvas.draw_circle(p, 0.005, 'white', 'white')
 
-        case 'FACES':
-            if my_object.faces is None:
-                canvas.draw_text("No faces data in file!", (0, 0), 'white')
-                return
+    if RENDER_MODE == 'FACES':
+        if my_object.faces is None:
+            canvas.draw_text("No faces data in file!", (0, 0), 'white')
+            return
 
-            for f in my_camera.get_faces(my_object):
-                verts = [points[p] for p in f]
-                canvas.draw_polygon(verts, 'grey', 'orange', 0.02)
+        for f in my_camera.get_faces(my_object):
+            verts = [points[p] for p in f]
+            canvas.draw_polygon(verts, 'grey', 'orange', 0.02)
 
-        case 'SHADED':
-            if my_object.faces is None:
-                canvas.draw_text("No faces data in file!", (0, 0), 'white')
-                return
+    if RENDER_MODE == 'SHADED':
+        if my_object.faces is None:
+            canvas.draw_text("No faces data in file!", (0, 0), 'white')
+            return
 
-            faces = my_camera.get_faces(my_object)
-            for n, f in enumerate(faces):
-                c = int(n / len(faces) * 150) + 50
-                face_colour = RGB_2_HEX((c, c, c))
-                verts = [points[p] for p in f]
-                canvas.draw_polygon(verts, face_colour, face_colour, 0.02)
+        faces = my_camera.get_faces(my_object)
+        for n, f in enumerate(faces):
+            c = int(n / len(faces) * 150) + 50
+            face_colour = RGB_2_HEX((c, c, c))
+            verts = [points[p] for p in f]
+            canvas.draw_polygon(verts, face_colour, face_colour, 0.02)
 
-        # case 'POINT_NUMBER':
-        #     for n, p in enumerate(points):
-        #         canvas.draw_text(str(n), p, 'white')
+    # if RENDER_MODE == 'POINT_NUMBER':
+    #     for n, p in enumerate(points):
+    #         canvas.draw_text(str(n), p, 'white')
 
 
 # Create Scene
