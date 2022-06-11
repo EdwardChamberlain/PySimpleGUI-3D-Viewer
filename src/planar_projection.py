@@ -2,7 +2,7 @@ from math import sin, cos, radians
 
 
 class Object_3D:
-    def __init__(self, verts, edges, faces=None, position=(0, 0, 0), orientation=0, elevation=0):
+    def __init__(self, verts, edges, faces=None, position=[0, 0, 0], orientation=0, elevation=0):
         self._verts = verts
         self.edges = edges
         self.faces = faces
