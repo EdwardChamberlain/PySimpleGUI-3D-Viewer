@@ -58,7 +58,7 @@ def refresh_view(RENDER_MODE):
 
 
 # Create Scene
-my_object = obj_reader.import_obj('example_obj/utah_teapot.obj', ('x', 90))
+my_object = obj_reader.import_obj('example_obj/utah_teapot.obj', rotation=('x', 90), translation=(0, 0, -1.5))
 my_camera = planar_projection.Camera_3D(
     focal_distance=-12,
     projection_plane_distance=-10
