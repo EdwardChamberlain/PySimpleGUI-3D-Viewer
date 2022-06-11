@@ -68,7 +68,6 @@ GRAPH_SIZE = (350,350) if sg.running_trinket() else (500,500)
 layout = [
     [sg.Graph(GRAPH_SIZE, (-1, -1), (1, 1), 'black', float_values=True, enable_events=True, key='-GRAPH-', drag_submits=True)],
     [sg.Text("R:", size=3), sg.Slider((0, 360), resolution=1, default_value=0, enable_events=True, orientation='horizontal', expand_x=True, key='-O-')],
-    [sg.Text("E:", size=3), sg.Slider((0, 360), resolution=1, default_value=0, enable_events=True, orientation='horizontal', expand_x=True, key='-E-')],
     [sg.Text("X:", size=3), sg.Slider((-8, 8), resolution=0.1, default_value=0, enable_events=True, orientation='horizontal', expand_x=True, key='-X-')],
     [sg.Text("Y:", size=3), sg.Slider((-3, 3), resolution=0.1, default_value=0, enable_events=True, orientation='horizontal', expand_x=True, key='-Y-')],
     [sg.Text("Z:", size=3), sg.Slider((-3, 3), resolution=0.1, default_value=0, enable_events=True, orientation='horizontal', expand_x=True, key='-Z-')],
@@ -84,9 +83,8 @@ while True:
     if event == sg.WIN_CLOSED:
         break
 
-    if event in ['-O-', '-E-', '-X-', '-Y-', '-Z-']:
+    if event in ['-O-', '-X-', '-Y-', '-Z-']:
         my_object.orientation = values['-O-']
-        my_object.elevation = values['-E-']
         my_object.position = [values['-X-'], values['-Y-'], values['-Z-']]
 
     if event == '-GRAPH-':
