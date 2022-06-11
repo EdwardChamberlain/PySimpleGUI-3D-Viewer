@@ -65,7 +65,7 @@ my_camera = planar_projection.Camera_3D(
 )
 
 layout = [
-    [sg.Graph((500, 500), (-1, -1), (1, 1), 'black', float_values=True, enable_events=True, key='-GRAPH-')],
+    [sg.Graph((500, 500), (-1, -1), (1, 1), 'black', float_values=True, enable_events=True, key='-GRAPH-', drag_submits=True)],
     [sg.Text("R:", size=3), sg.Slider((180, -180), resolution=1, default_value=0, enable_events=True, orientation='horizontal', expand_x=True, key='-O-')],
     [sg.Text("X:", size=3), sg.Slider((-8, 8), resolution=0.1, default_value=0, enable_events=True, orientation='horizontal', expand_x=True, key='-X-')],
     [sg.Text("Y:", size=3), sg.Slider((-3, 3), resolution=0.1, default_value=0, enable_events=True, orientation='horizontal', expand_x=True, key='-Y-')],
@@ -75,6 +75,7 @@ layout = [
 
 window = sg.Window('3D Viewport', layout)
 
+drag_loc = None
 while True:
     event, values = window.read()
 
@@ -84,6 +85,20 @@ while True:
     if event in ['-O-', '-X-', '-Y-', '-Z-']:
         my_object.orientation = values['-O-']
         my_object.position = (values['-X-'], values['-Y-'], values['-Z-'])
+
+    if event == '-GRAPH-':
+        new_drag_location = values['-GRAPH-']
+
+        if not drag_loc:
+            drag_loc = new_drag_location
+
+        my_object.orientation += (drag_loc[0] - new_drag_location[0]) * 360
+        drag_loc = new_drag_location
+
+        window['-O-'].update(my_object.orientation)
+    
+    if event == '-GRAPH-+UP':
+        drag_loc = None
 
     refresh_view(values['-REDNER_TYPE-'])
 
