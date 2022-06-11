@@ -87,7 +87,7 @@ while True:
     if event in ['-O-', '-E-', '-X-', '-Y-', '-Z-']:
         my_object.orientation = values['-O-']
         my_object.elevation = values['-E-']
-        my_object.position = (values['-X-'], values['-Y-'], values['-Z-'])
+        my_object.position = [values['-X-'], values['-Y-'], values['-Z-']]
 
     if event == '-GRAPH-':
         new_drag_location = values['-GRAPH-']
