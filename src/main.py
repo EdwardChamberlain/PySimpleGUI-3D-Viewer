@@ -70,7 +70,7 @@ layout = [
     [sg.Text("X:", size=3), sg.Slider((-8, 8), resolution=0.1, default_value=0, enable_events=True, orientation='horizontal', expand_x=True, key='-X-')],
     [sg.Text("Y:", size=3), sg.Slider((-3, 3), resolution=0.1, default_value=0, enable_events=True, orientation='horizontal', expand_x=True, key='-Y-')],
     [sg.Text("Z:", size=3), sg.Slider((-3, 3), resolution=0.1, default_value=0, enable_events=True, orientation='horizontal', expand_x=True, key='-Z-')],
-    [sg.Text("Render Mode:"), sg.Combo(['POINTS', "LINES", 'FACES', 'SHADED'], 'POINTS', key="-REDNER_TYPE-", readonly=True, enable_events=True)]
+    [sg.Text("Render Mode:"), sg.Combo(['POINTS', "LINES", 'FACES', 'SHADED'], 'FACES', key="-REDNER_TYPE-", readonly=True, enable_events=True)]
 ]
 
 window = sg.Window('3D Viewport', layout)
