@@ -7,9 +7,17 @@ class Object_3D:
         self.edges = edges
         self.faces = faces
 
-        self.orientation = orientation
+        self._orientation = orientation
         self.elevation = elevation
         self.position = position
+
+    @property
+    def orientation(self):
+        return self._orientation
+
+    @orientation.setter
+    def orientation(self, new):
+        self._orientation = new % 360
 
     @property
     def verts(self):
