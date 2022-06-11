@@ -21,7 +21,8 @@ class Object_3D:
 
     @property
     def verts(self):
-        result = [self.roatate_point_z(i, self.orientation) for i in self._verts]
+        result = [self.roatate_point_x(i, self.elevation) for i in self._verts]
+        result = [self.roatate_point_z(i, self.orientation) for i in result]
         result = [self.translate_point(i, self.position) for i in result]
         return result
 
