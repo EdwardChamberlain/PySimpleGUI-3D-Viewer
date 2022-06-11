@@ -94,9 +94,12 @@ while True:
             drag_loc = new_drag_location
 
         my_object.orientation += (drag_loc[0] - new_drag_location[0]) * 360
+        my_object.position[0] += (drag_loc[1] - new_drag_location[1]) * -10
+
         drag_loc = new_drag_location
 
         window['-O-'].update(my_object.orientation)
+        window['-X-'].update(my_object.position[0])
     
     if event == '-GRAPH-+UP':
         drag_loc = None
