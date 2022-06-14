@@ -1,7 +1,7 @@
 import functools
 import PySimpleGUI as sg
 
-# Thsi prevents an issue on macOS when using night mode where disabled input fields are rendered with black text on a black background.
+# Prevents an issue on macOS when using night mode where disabled input fields are rendered with black text on a black background.
 uInput = functools.partial(
     sg.Input,
     disabled_readonly_background_color='white',
@@ -9,7 +9,7 @@ uInput = functools.partial(
 )
 sg.Input = uInput
 
-# This prevents an issue on macOS where the window is rendered transparent.
+# Prevents an issue on macOS where the window is rendered transparent.
 uWindow = functools.partial(
     sg.Window,
     alpha_channel=0.99,
